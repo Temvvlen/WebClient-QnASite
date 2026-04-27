@@ -1,0 +1,23 @@
+{% extends 'qa/base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Ask a Question</h4>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label fw-bold">Title</label>
+                <input type="text" name="title" class="form-control" placeholder="Enter your question title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Content</label>
+                <textarea name="content" class="form-control" rows="6" placeholder="Describe your question in detail" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Question</button>
+            <a href="{% url 'question_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

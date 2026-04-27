@@ -1,0 +1,42 @@
+{% extends 'qa/base.html' %}
+{% block content %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">{{ question.title }}</h4>
+    </div>
+    <div class="card-body">
+        <p>{{ question.content }}</p>
+        <small class="text-muted">Asked by <strong>{{ question.author.username }}</strong> on {{ question.created_at|date:"Y-m-d H:i" }}</small>
+    </div>
+</div>
+
+<h5>{{ question.answers.count }} Answer(s)</h5>
+{% for answer in question.answers.all %}
+<div class="card mb-2">
+    <div class="card-body">
+        <p>{{ answer.content }}</p>
+        <small class="text-muted"><strong>{{ answer.author.username }}</strong> &middot; {{ answer.created_at|date:"Y-m-d H:i" }}</small>
+    </div>
+</div>
+{% empty %}
+<p class="text-muted">No answers yet.</p>
+{% endfor %}
+
+<hr>
+{% if user.is_authenticated %}
+<h5>Your Answer</h5>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <textarea name="content" class="form-control" rows="4" placeholder="Write your answer..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Answer</button>
+</form>
+{% else %}
+<div class="alert alert-warning">
+    <a href="{% url 'login' %}">Login</a> to post an answer.
+</div>
+{% endif %}
+
+<a href="{% url 'question_list' %}" class="btn btn-secondary mt-3">← Back to List</a>
+{% endblock %}
